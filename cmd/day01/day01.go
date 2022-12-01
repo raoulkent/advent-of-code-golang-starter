@@ -105,5 +105,15 @@ func sumArr(input []int) int {
 // ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝          ╚═╝    ╚══╝╚══╝  ╚═════╝
 
 func part2(input string) int {
-	return 0
+	candyBags := bagStringsToElfCandyBags(input)
+
+	sort.Sort(sort.Reverse(candyBags))
+
+	var candySumForTop3Elf int
+
+	for i := 0; i < 3; i++ {
+		candySumForTop3Elf += candyBags[i].candyTotal
+	}
+
+	return candySumForTop3Elf
 }
