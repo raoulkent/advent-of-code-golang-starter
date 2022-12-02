@@ -31,31 +31,32 @@ func main() {
 // ╚══════╝ ╚═════╝ ╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝
 
 var outcomeMap = map[string]map[string]int{
-	"A": {
-		"X": 3,
-		"Y": 0,
-		"Z": 6,
+	"X": {
+		"A": 3,
+		"B": 0,
+		"C": 6,
 	},
-	"B": {
-		"X": 6,
-		"Y": 3,
-		"Z": 0,
+	"Y": {
+		"A": 6,
+		"B": 3,
+		"C": 0,
 	},
-	"C": {
-		"X": 0,
-		"Y": 6,
-		"Z": 3,
+	"Z": {
+		"A": 0,
+		"B": 6,
+		"C": 3,
 	},
 }
 
 var shapeMap = map[string]int{
-	"A": 1,
-	"B": 2,
-	"C": 3,
+	"X": 1,
+	"Y": 2,
+	"Z": 3,
 }
 
 func splitOnNewlines(s string) []string {
-	return strings.Split(s, "\n")
+	removeEOF := strings.TrimSuffix(s, "\n")
+	return strings.Split(removeEOF, "\n")
 }
 
 func splitOnSpace(s string) []string {
@@ -85,18 +86,13 @@ func part1(input string) int {
 	for _, round := range rounds {
 		roundData := splitOnSpace(round)
 
-		// fmt.Printf("Round: %s\n", roundData)
-		// fmt.Printf("Shape: %s\n", roundData[0])
-		// fmt.Printf("Elfshape: %s\n", roundData[1])
-		shape := roundData[0]
-		elfShape := roundData[1]
+		elfShape := roundData[0]
+		shape := roundData[1]
 
-		// shapeScore := getShapeScore(shape)
+		shapeScore := getShapeScore(shape)
 		outcomeScore := getOutcomeScore(shape, elfShape)
 
-		// score += (shapeScore + outcomeScore)
-		score += outcomeScore
-		// score += shapeScore
+		score += (shapeScore + outcomeScore)
 	}
 
 	return score
