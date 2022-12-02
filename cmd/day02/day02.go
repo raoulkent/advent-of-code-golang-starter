@@ -30,7 +30,7 @@ func main() {
 // ███████║╚██████╔╝██║     ██║     ╚██████╔╝██║  ██║   ██║
 // ╚══════╝ ╚═════╝ ╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝
 
-var outcomeMap = map[string]map[string]int{
+var outcomes = map[string]map[string]int{
 	"X": {
 		"A": 3,
 		"B": 0,
@@ -48,10 +48,34 @@ var outcomeMap = map[string]map[string]int{
 	},
 }
 
-var shapeMap = map[string]int{
+var shapes = map[string]int{
 	"X": 1,
 	"Y": 2,
 	"Z": 3,
+}
+
+var secretShape = map[string]map[string]string{
+	"X": {
+		"A": "Z",
+		"B": "X",
+		"C": "Y",
+	},
+	"Y": {
+		"A": "X",
+		"B": "Y",
+		"C": "Z",
+	},
+	"Z": {
+		"A": "Y",
+		"B": "Z",
+		"C": "X",
+	},
+}
+
+var secretOutcome = map[string]int{
+	"X": 0,
+	"Y": 3,
+	"Z": 6,
 }
 
 func splitOnNewlines(s string) []string {
@@ -64,11 +88,19 @@ func splitOnSpace(s string) []string {
 }
 
 func getShapeScore(shape string) int {
-	return shapeMap[shape]
+	return shapes[shape]
 }
 
-func getOutcomeScore(shape string, elfShape string) int {
-	return outcomeMap[shape][elfShape]
+func getOutcomeScore(elfShape string, shape string) int {
+	return outcomes[elfShape][shape]
+}
+
+func getSecretShape(elfShape string, secretInstruction string) string {
+	return secretShape[secretInstruction][elfShape]
+}
+
+func getSecretOutcome(shape string) int {
+	return secretOutcome[shape]
 }
 
 // ██████╗  █████╗ ██████╗ ████████╗     ██╗
@@ -106,5 +138,24 @@ func part1(input string) int {
 // ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝       ╚══════╝
 
 func part2(input string) int {
-	return 0
+	var score int = 0
+
+	rounds := splitOnNewlines(input)
+
+	for _, round := range rounds {
+		roundData := splitOnSpace(round)
+
+		elfShape := roundData[0]          // X, Y or Z
+		secretInstruction := roundData[1] // A, B, or C
+		shape := getSecretShape(elfShape, secretInstruction)
+
+		fmt.Printf("Elf: %s, Shape: %s, Secret Shape: %s\n", elfShape, secretInstruction, shape)
+
+		shapeScore := getShapeScore(shape)
+		outcomeScore := getSecretOutcome(secretInstruction)
+
+		score += (shapeScore + outcomeScore)
+	}
+
+	return score
 }
