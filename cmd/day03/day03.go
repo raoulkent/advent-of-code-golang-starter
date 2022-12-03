@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	input, err := utils.ReadFile("resources/day02.txt")
+	input, err := utils.ReadFile("resources/day03.txt")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)
