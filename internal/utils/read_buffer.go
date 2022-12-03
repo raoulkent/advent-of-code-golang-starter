@@ -13,7 +13,7 @@ func ReadBuffer(path string) (*bufio.Reader, error) {
 		os.Exit(1)
 	}
 
-	defer data.Close()
+	// defer data.Close()
 	reader := bufio.NewReader(data)
 
 	return reader, nil
