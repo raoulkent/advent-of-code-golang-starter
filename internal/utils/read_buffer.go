@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func BufferFile(path string) (*bufio.Reader, error) {
+func ReadBuffer(path string) (*bufio.Reader, error) {
 	data, err := os.Open(path)
 	if err != nil {
 		fmt.Println(err)
