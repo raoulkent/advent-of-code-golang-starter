@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"aoc/internal/utils"
 )
@@ -23,9 +24,17 @@ func main() {
 }
 
 func part1(input string) int {
+	start := time.Now()
+
+	elapsed := time.Since(start)
+	fmt.Printf("Part 1 took %s", elapsed)
 	return 0
 }
 
 func part2(input string) int {
+	start := time.Now()
+
+	elapsed := time.Since(start)
+	fmt.Printf("Part 2 took %s", elapsed)
 	return 0
 }
