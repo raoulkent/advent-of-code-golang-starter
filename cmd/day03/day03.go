@@ -19,6 +19,12 @@ func main() {
 
 	fmt.Println("--- Part One ---")
 	fmt.Println("Result:", part1(input))
+
+	input, err = utils.ReadBuffer("resources/day03.txt")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(0)
+	}
 	fmt.Println("--- Part Two ---")
 	fmt.Println("Result:", part2(input))
 
@@ -106,7 +112,7 @@ func part1(buffer *bufio.Reader) int {
 	}
 
 	elapsed := time.Since(start)
-	fmt.Printf("Part 1 took %s", elapsed)
+	fmt.Printf("Part 1 took %s\n", elapsed)
 	return result
 }
 
@@ -118,5 +124,36 @@ func part1(buffer *bufio.Reader) int {
 // ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
 
 func part2(buffer *bufio.Reader) int {
-	return 0
+	start := time.Now()
+	var result, counter, accumulated int
+	// allPriorities is 2^52-1, which is all the bits set to 1
+	var allPriorities = (1 << 52) - 1
+	accumulated = allPriorities
+
+	runesAsBinary := createRunesAsBinary()
+	priorities := createPriorities()
+
+	for {
+		line, err := buffer.ReadString('\n')
+		if err != nil {
+			if err == io.EOF {
+				break
+			} else {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		}
+
+		counter++
+		accumulated &= reduce(line, runesAsBinary)
+
+		if counter%3 == 0 {
+			result += priorities[accumulated]
+			accumulated = allPriorities
+		}
+	}
+
+	elapsed := time.Since(start)
+	fmt.Printf("Part 1 took %s\n", elapsed)
+	return result
 }
