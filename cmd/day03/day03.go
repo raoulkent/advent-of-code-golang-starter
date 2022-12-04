@@ -68,7 +68,6 @@ func createPriorities() map[int]int {
 
 func reduce(input string) int {
 	var result int
-
 	for _, r := range input {
 		result |= runePriority(r)
 	}
@@ -145,7 +144,7 @@ func part2(buffer *bufio.Reader) int {
 		}
 
 		counter++
-		accumulated &= reduce(line)
+		accumulated &= reduce(line[:len(line)-1])
 
 		if counter%3 == 0 {
 			result += priorities[accumulated]
