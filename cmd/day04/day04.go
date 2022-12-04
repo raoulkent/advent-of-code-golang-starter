@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
+	"strings"
 	"time"
 
 	"aoc/internal/utils"
@@ -32,9 +34,43 @@ func main() {
 	os.Exit(0)
 }
 
+// ███████╗██╗   ██╗██████╗ ██████╗  ██████╗ ██████╗ ████████╗
+// ██╔════╝██║   ██║██╔══██╗██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝
+// ███████╗██║   ██║██████╔╝██████╔╝██║   ██║██████╔╝   ██║
+// ╚════██║██║   ██║██╔═══╝ ██╔═══╝ ██║   ██║██╔══██╗   ██║
+// ███████║╚██████╔╝██║     ██║     ╚██████╔╝██║  ██║   ██║
+// ╚══════╝ ╚═════╝ ╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝
+
+func splitOnComma(input string) []string {
+	return strings.Split(input, ",")
+}
+
+func splitOnDash(input string) []string {
+	return strings.Split(input, "-")
+}
+
+// ██████╗  █████╗ ██████╗ ████████╗ ██╗
+// ██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝███║
+// ██████╔╝███████║██████╔╝   ██║   ╚██║
+// ██╔═══╝ ██╔══██║██╔══██╗   ██║    ██║
+// ██║     ██║  ██║██║  ██║   ██║    ██║
+// ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═╝
+
 // part one
 func part1(input string) int {
 	start := time.Now()
+
+	for {
+		line, err := buffer.ReadString('\n')
+		if err != nil {
+			if err == io.EOF {
+				break
+			} else {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		}
+	}
 
 	elapsed := time.Since(start)
 	fmt.Printf("Part 1 took %s\n", elapsed)
@@ -44,6 +80,18 @@ func part1(input string) int {
 // part two
 func part2(input string) int {
 	start := time.Now()
+
+	for {
+		line, err := buffer.ReadString('\n')
+		if err != nil {
+			if err == io.EOF {
+				break
+			} else {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		}
+	}
 
 	elapsed := time.Since(start)
 	fmt.Printf("Part 2 took %s\n", elapsed)
