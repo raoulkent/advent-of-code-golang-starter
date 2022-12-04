@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -12,7 +14,7 @@ import (
 
 func main() {
 	// read form file
-	input, err := utils.ReadFile("resources/dayXX.txt")
+	buffer, err := utils.ReadBuffer("resources/day04.txt")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)
@@ -27,9 +29,9 @@ func main() {
 	// }
 
 	fmt.Println("--- Part One ---")
-	fmt.Println("Result:", part1(input))
+	fmt.Println("Result:", part1(buffer))
 	fmt.Println("--- Part Two ---")
-	fmt.Println("Result:", part2(input))
+	fmt.Println("Result:", part2(buffer))
 
 	os.Exit(0)
 }
@@ -40,10 +42,6 @@ func main() {
 // ╚════██║██║   ██║██╔═══╝ ██╔═══╝ ██║   ██║██╔══██╗   ██║
 // ███████║╚██████╔╝██║     ██║     ╚██████╔╝██║  ██║   ██║
 // ╚══════╝ ╚═════╝ ╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝
-
-func splitOnComma(input string) []string {
-	return strings.Split(input, ",")
-}
 
 func splitOnDash(input string) []string {
 	return strings.Split(input, "-")
@@ -57,8 +55,10 @@ func splitOnDash(input string) []string {
 // ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═╝
 
 // part one
-func part1(input string) int {
+func part1(buffer *bufio.Reader) int {
 	start := time.Now()
+
+	var count int
 
 	for {
 		line, err := buffer.ReadString('\n')
@@ -69,29 +69,49 @@ func part1(input string) int {
 				fmt.Println(err)
 				os.Exit(1)
 			}
+		}
+
+		line = strings.TrimSuffix(line, "\n")
+
+		pairs := strings.Split(line, ",")
+		var lower, upper []int
+		for _, pair := range pairs {
+			split := strings.Split(pair, "-")
+
+			leftInt, _ := strconv.Atoi(split[0])
+			rightInt, _ := strconv.Atoi(split[1])
+
+			lower = append(lower, leftInt)
+			upper = append(upper, rightInt)
+		}
+
+		if lower[0] <= lower[1] && upper[0] >= upper[1] {
+			count++
+		} else if lower[0] >= lower[1] && upper[0] <= upper[1] {
+			count++
 		}
 	}
 
 	elapsed := time.Since(start)
 	fmt.Printf("Part 1 took %s\n", elapsed)
-	return 0
+	return count
 }
 
 // part two
-func part2(input string) int {
+func part2(buffer *bufio.Reader) int {
 	start := time.Now()
 
-	for {
-		line, err := buffer.ReadString('\n')
-		if err != nil {
-			if err == io.EOF {
-				break
-			} else {
-				fmt.Println(err)
-				os.Exit(1)
-			}
-		}
-	}
+	// for {
+	// 	line, err := buffer.ReadString('\n')
+	// 	if err != nil {
+	// 		if err == io.EOF {
+	// 			break
+	// 		} else {
+	// 			fmt.Println(err)
+	// 			os.Exit(1)
+	// 		}
+	// 	}
+	// }
 
 	elapsed := time.Since(start)
 	fmt.Printf("Part 2 took %s\n", elapsed)
