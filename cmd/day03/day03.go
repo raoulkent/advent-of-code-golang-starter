@@ -54,16 +54,13 @@ func priorityRune(i int) rune {
 	}
 }
 
-func createPriorities() map[int]int {
-	// create a map from int to int where the int is 2^0, 2^1, 2^2, etc.
-	// and the int is the priority 1, 2, 3, etc.
-	var priorities = make(map[int]int)
-
-	for i, _ := range "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" {
-		priorities[1<<i] = i + 1 // 2^i
+func msb(n int) int {
+	var pos int
+	for n > 0 {
+		n >>= 1
+		pos++
 	}
-
-	return priorities
+	return pos
 }
 
 func reduce(input string) int {
@@ -86,8 +83,6 @@ func part1(buffer *bufio.Reader) int {
 	start := time.Now()
 	var result int
 
-	priorities := createPriorities()
-
 	for {
 		line, err := buffer.ReadString('\n')
 		if err != nil {
@@ -106,7 +101,7 @@ func part1(buffer *bufio.Reader) int {
 		leftSackReduced := reduce(leftSack)
 		rightSackReduced := reduce(rightSack)
 		filteredSacks := leftSackReduced & rightSackReduced
-		priority := priorities[filteredSacks]
+		priority := msb(filteredSacks)
 
 		result += priority
 	}
@@ -130,8 +125,6 @@ func part2(buffer *bufio.Reader) int {
 	var allPriorities = (1 << 52) - 1
 	accumulated = allPriorities
 
-	priorities := createPriorities()
-
 	for {
 		line, err := buffer.ReadString('\n')
 		if err != nil {
@@ -147,7 +140,7 @@ func part2(buffer *bufio.Reader) int {
 		accumulated &= reduce(line[:len(line)-1])
 
 		if counter%3 == 0 {
-			result += priorities[accumulated]
+			result += msb(accumulated)
 			accumulated = allPriorities
 		}
 	}
