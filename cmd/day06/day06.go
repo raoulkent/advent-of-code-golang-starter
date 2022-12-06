@@ -45,6 +45,9 @@ func findBufferedBytesUntilUnique(buffer *bufio.Reader, syncLength int) int {
 	// The message begins after syncLength number of characters (the sync header of the message)
 	var position int = 0 + syncLength
 
+	//TODO: Use a scanner, with ScanRunes to read the buffer instead
+	//TODO 2: Instead of peeking, read the buffer and store the last four runes in a queue
+
 	for {
 		peek, _ := buffer.Peek(syncLength)
 		if bytesAreUnique(peek) {
