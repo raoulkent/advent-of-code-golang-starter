@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// read form file
-	input, err := utils.ReadFile("resources/dayXX.txt")
+	input, err := utils.ReadFile("resources/day05.txt")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)
