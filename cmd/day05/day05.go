@@ -3,8 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
+	"strings"
 	"time"
+
+	"github.com/gammazero/deque"
 
 	"aoc/internal/utils"
 )
@@ -27,7 +31,33 @@ func main() {
 // [__  |  | |__] |__] |  | |__/  |
 // ___] |__| |    |    |__| |  \  |
 
-// Place support functions here
+func inputParser(buffer *bufio.Reader) []string {
+	var initialStackState []string
+
+	for {
+		line, err := buffer.ReadString('\n')
+		if err == io.EOF {
+			break
+		}
+		if isMoveString(line) {
+			break
+		}
+
+		initialStackState = append(initialStackState, line)
+	}
+
+	return initialStackState
+}
+
+func isMoveString(s string) bool {
+	return strings.Split(s, " ")[0] == "move"
+}
+
+func startStateParser(buffer *bufio.Reader) []deque.Deque[rune] {
+	var q []deque.Deque[rune]
+
+	return q
+}
 
 // ___  ____ ____ ___    ____ _  _ ____
 // |__] |__| |__/  |     |  | |\ | |___
