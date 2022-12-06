@@ -30,7 +30,16 @@ func main() {
 	os.Exit(0)
 }
 
-// part one
+// ____ _  _ ___  ___  ____ ____ ___
+// [__  |  | |__] |__] |  | |__/  |
+// ___] |__| |    |    |__| |  \  |
+
+// Place support functions here
+
+// ___  ____ ____ ___    ____ _  _ ____
+// |__] |__| |__/  |     |  | |\ | |___
+// |    |  | |  \  |     |__| | \| |___
+
 func part1(buffer *bufio.Reader) int {
 	start := time.Now()
 
@@ -39,7 +48,10 @@ func part1(buffer *bufio.Reader) int {
 	return 0
 }
 
-// part two
+// ___  ____ ____ ___    ___ _ _ _ ____
+// |__] |__| |__/  |      |  | | | |  |
+// |    |  | |  \  |      |  |_|_| |__|
+
 func part2(buffer *bufio.Reader) int {
 	start := time.Now()
 
