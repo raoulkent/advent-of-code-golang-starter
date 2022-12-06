@@ -41,7 +41,7 @@ func bytesAreUnique(bytes []byte) bool {
 	return true
 }
 
-func findBufferedBytesBeforeUnique(buffer *bufio.Reader, syncLength int) int {
+func findBufferedBytesUntilUnique(buffer *bufio.Reader, syncLength int) int {
 	// The message begins after syncLength number of characters (the sync header of the message)
 	var position int = 0 + syncLength
 
@@ -68,7 +68,7 @@ func findBufferedBytesBeforeUnique(buffer *bufio.Reader, syncLength int) int {
 func part1(buffer *bufio.Reader) int {
 	start := time.Now()
 
-	processedRunes := findBufferedBytesBeforeUnique(buffer, 4)
+	processedRunes := findBufferedBytesUntilUnique(buffer, 4)
 
 	elapsed := time.Since(start)
 	fmt.Printf("Part 1 took %s\n", elapsed)
@@ -85,7 +85,7 @@ func part1(buffer *bufio.Reader) int {
 func part2(buffer *bufio.Reader) int {
 	start := time.Now()
 
-	processedRunes := findBufferedBytesBeforeUnique(buffer, 14)
+	processedRunes := findBufferedBytesUntilUnique(buffer, 14)
 
 	elapsed := time.Since(start)
 	fmt.Printf("Part 2 took %s\n", elapsed)
