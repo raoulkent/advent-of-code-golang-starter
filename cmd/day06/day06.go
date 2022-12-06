@@ -41,6 +41,23 @@ func bytesAreUnique(bytes []byte) bool {
 	return true
 }
 
+func findBufferedBytesBeforeUnique(buffer *bufio.Reader, syncLength int) int {
+	// The message begins after syncLength number of characters (the sync header of the message)
+	var position int = 0 + syncLength
+
+	for {
+		peek, _ := buffer.Peek(syncLength)
+		if bytesAreUnique(peek) {
+			break
+		}
+
+		buffer.ReadRune()
+		position++
+	}
+
+	return position
+}
+
 // ██████╗  █████╗ ██████╗ ████████╗     ██████╗ ███╗   ██╗███████╗
 // ██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝    ██╔═══██╗████╗  ██║██╔════╝
 // ██████╔╝███████║██████╔╝   ██║       ██║   ██║██╔██╗ ██║█████╗
@@ -51,23 +68,11 @@ func bytesAreUnique(bytes []byte) bool {
 func part1(buffer *bufio.Reader) int {
 	start := time.Now()
 
-	// The message begins after 4 characters (the header of the message)
-	var position int = 0 + 4
-
-	for {
-		peek, _ := buffer.Peek(4)
-		if bytesAreUnique(peek) {
-			fmt.Printf("Found unique bytes at position %d: %s\n", position, peek)
-			break
-		}
-
-		buffer.ReadRune()
-		position++
-	}
+	processedRunes := findBufferedBytesBeforeUnique(buffer, 4)
 
 	elapsed := time.Since(start)
 	fmt.Printf("Part 1 took %s\n", elapsed)
-	return position
+	return processedRunes
 }
 
 // ██████╗  █████╗ ██████╗ ████████╗    ████████╗██╗    ██╗ ██████╗
@@ -80,7 +85,9 @@ func part1(buffer *bufio.Reader) int {
 func part2(buffer *bufio.Reader) int {
 	start := time.Now()
 
+	processedRunes := findBufferedBytesBeforeUnique(buffer, 14)
+
 	elapsed := time.Since(start)
 	fmt.Printf("Part 2 took %s\n", elapsed)
-	return 0
+	return processedRunes
 }
