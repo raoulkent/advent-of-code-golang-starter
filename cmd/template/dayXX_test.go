@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bufio"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -8,7 +10,7 @@ import (
 
 func TestDayXX(t *testing.T) {
 	assert := assert.New(t)
-	input := ""
+	input := bufio.NewReader(strings.NewReader(""))
 
 	t.Run("part 1", func(t *testing.T) {
 		expected := 0
